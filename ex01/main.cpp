@@ -22,119 +22,120 @@ int main()
     std::cout << sp.shortestSpan() << std::endl;
     std::cout << sp.longestSpan() << std::endl;
 }*/
-void displaySpan(std::string const &name, Span &span)
-{
-	std::cout << name << ": "
-			<< span.shortestSpan() << ", "
-			<< span.longestSpan() << std::endl;
-}
 
 int main()
 {
-	srand(time(NULL));
+    // FULL SPAN
+    Span sp_full = Span(2);
 
-	Span sp = Span(5);
-	sp.addNumber(5);
-	sp.addNumber(3);
-	sp.addNumber(17);
-	sp.addNumber(9);
-	sp.addNumber(11);
-	displaySpan("Simple", sp);
+    sp_full.addNumber(5);
+    sp_full.addNumber(8);
+    std::cerr << "[+] ADD when is full [+]"  << std::endl;
+    try
+    {
+        sp_full.addNumber(9);     
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
+    
+    Span sp_short = Span(5);
+    sp_short.addNumber(5);
+    sp_short.addNumber(90);
+    sp_short.addNumber(17);
+    sp_short.addNumber(-8925);
+    sp_short.addNumber(11);
+	std::cerr << "[+] Shortest diference [+]"  << std::endl;
+    std::cout << sp_short.shortestSpan() << std::endl;
 
-	Span spcopy = sp;
-	displaySpan("Simple (Copy)", spcopy);
+    Span sp_short_hard = Span(2);
+    sp_short_hard.addNumber(2147483647);
+    sp_short_hard.addNumber(-2147483648);
+	std::cerr << "[+] Shortest biggest posible [+]"  << std::endl;
+    std::cout << sp_short_hard.shortestSpan() << std::endl;
 
-	Span spfifty = Span(50);
-	for (int i = 0; i < 50; i++)
-		spfifty.addNumber(i);
-	displaySpan("0 to 49 (included)", spfifty);
+    Span sp_empty = Span(80);
+    std::cerr << "[+] Empty exception 0 numbers[+]"  << std::endl;
+    try
+    {
+        std::cout << sp_empty.shortestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
 
-	Span spcopyc = Span(spfifty);
-	displaySpan("0 to 49 (included, Copy Constructor)", spcopyc);
+    sp_empty.addNumber(5);
+	std::cerr << "[+] Empty exception with one Number [+]"  << std::endl;
+    try
+    {
+        std::cout << sp_empty.shortestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
 
-	Span sphard = Span(50);
-	sphard.addNumber(2);
-	sphard.addNumber(5);
-	sphard.addNumber(6);
-	sphard.addNumber(12);
-	sphard.addNumber(7);
-	sphard.addNumber(9);
-	sphard.addNumber(54);
-	displaySpan("[2, 5, 6, 12, 7, 9, 54] -> [1, 52]", sphard);
+    Span sp_long = Span(4);
+    sp_long.addNumber(8);
+    sp_long.addNumber(-3);
+    sp_long.addNumber(80);
+    sp_long.addNumber(-8);
+	std::cerr << "[+] Long Span [+]"  << std::endl;
+    try
+    {
+        std::cout << sp_long.longestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
 
-	Span spzeroone = Span(2);
-	spzeroone.addNumber(0);
-	spzeroone.addNumber(1);
-	displaySpan("0 and one", spzeroone);
+    Span sp_long_hard = Span(4);
+    sp_long_hard.addNumber(2147483647);
+    sp_long_hard.addNumber(-2147483648);
+	std::cerr << "[+] Long Span Long numbers [+]"  << std::endl;
+    try
+    {
+        std::cout << sp_long_hard.longestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
+	std::cerr << "[+] empty Error Long [+]"  << std::endl;
+    try
+    {
+        std::cout << sp_empty.longestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
+	std::cerr << "[+] 10mil numbers plus [+]"  << std::endl;
+    Span sp_long_long = Span(100000);
+    std::vector<int> range(100000, 10);
+    range[6666] = 40;
+    sp_long_long.addNumber(range.begin(), range.end());
 
-	Span sphundred = Span(100);
-	for (int i = 0; i < 100; i++)
-		sphundred.addNumber(i - 50);
-	displaySpan("-50 to 49 (included)", sphundred);
+    try
+    {
+        std::cout << sp_long_long.longestSpan() << std::endl;
+    }
+        catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
 
-	Span spallsame = Span(100);
-	for (int i = 0; i < 100; i++)
-		spallsame.addNumber(1);
-	displaySpan("All the same", spallsame);
-
-	for (int i = 0; i < 20; i++)
-	{
-		std::vector<int> tmp;
-		Span sprandom = Span(100000);
-		for (int i = 0; i < 100000; i++)
-			tmp.push_back((rand() % 100000) - 50000);
-		sprandom.addNumber(tmp.begin(), tmp.end());
-		displaySpan("Random", sprandom);
-	}
-
-	std::cout << "---" << std::endl;
-
-	Span spexception(3);
-	try
-	{
-		displaySpan("Exception", spexception);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	spexception.addNumber(1);
-	try
-	{
-		displaySpan("Exception", spexception);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	spexception.addNumber(1);
-	spexception.addNumber(1);
-
-	try
-	{
-		spexception.addNumber(1);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-
-	try
-	{
-		std::list<int> lst;
-		lst.push_back(1);
-		lst.push_back(2);
-		lst.push_back(3);
-		lst.push_back(4);
-
-		Span spexception = Span(3);
-		spexception.addNumber(lst.begin(), lst.end());
-		displaySpan("Exception", spexception);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+    try
+    {
+        std::cout << sp_long_long.shortestSpan() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error : " << e.what() <<  std::endl;
+    }
 
 	return (0);
 }

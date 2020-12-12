@@ -30,9 +30,7 @@ class Span
             virtual const char* what() const throw();
         };
 
-        //operators
         Span &operator=(Span const &op);
-        //others
         void addNumber(int n);
         template < class Iterator >
         void        addNumber(Iterator begin, Iterator end)

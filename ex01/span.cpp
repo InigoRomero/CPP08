@@ -42,8 +42,8 @@ size_t Span::shortestSpan()
     size_t size = this->_numbers.size();
 	if (size <= 1)
 		throw Span::ShortSpanException();
-	size_t x = (size_t)this->_numbers[1] - (size_t)this->_numbers[0];
-
+    std::sort(this->_numbers.begin(), this->_numbers.end());
+    size_t x = (size_t)this->_numbers[1] - (size_t)this->_numbers[0];
     for (size_t n = 0; n < size; n++)
         if (x > ((size_t)this->_numbers[n + 1] - (size_t)this->_numbers[n]))
             x = (size_t)this->_numbers[n + 1] - (size_t)this->_numbers[n];
